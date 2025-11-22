@@ -37,9 +37,16 @@ This repository contains the official PyTorch implementation of both **MAE pre-t
 
 ---
 
+## Easy use via Pip
 
-## Installation
+You can easily use UniGaze with the pip command: 
+```bash
+pip install unigaze
+```
 
+You can find our UniGaze on the PyPI page: https://pypi.org/project/unigaze/
+
+## Installation from source
 
 To install the required dependencies, run:
 ```bash
@@ -113,7 +120,7 @@ If you find our work useful for your research, please consider citing:
 @article{qin2025unigaze,
   title={UniGaze: Towards Universal Gaze Estimation via Large-scale Pre-Training},
   author={Qin, Jiawei and Zhang, Xucong and Sugano, Yusuke},
-  journal={arXiv preprint arXiv:2502.02307},
+  journal={IEEE Winter Conference on Applications of Computer Vision (WACV)},
   year={2025}
 }
 ```
