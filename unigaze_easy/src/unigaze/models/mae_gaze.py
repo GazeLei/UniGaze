@@ -24,7 +24,10 @@ def _read_checkpoint_any(path):
 		sd = safe_load(path)  # already a flat tensor dict
 	else:
 		ckpt = torch.load(path, map_location="cpu")
-		sd = ckpt.get("model", ckpt)  # handle {'model': ...} or raw state_dict
+		if "model" in ckpt:
+			sd = ckpt["model"]
+		elif "model_state" in ckpt:
+			sd = ckpt["model_state"]
 	return sd
 
 class MAE_Gaze(nn.Module):
@@ -33,6 +36,7 @@ class MAE_Gaze(nn.Module):
 			  custom_pretrained_path=None):
 		
 		super().__init__()
+		self.model_type = model_type
 		if model_type == "vit_b_16":
 			self.vit = vit_base_patch16( global_pool=global_pool, drop_path_rate=drop_path_rate)
 		elif model_type == "vit_l_16":
@@ -70,6 +74,14 @@ class MAE_Gaze(nn.Module):
 
 		print(f'Loaded custom pretrained weights from {pretrained_path}')
 
+	def load_unigaze_weights(self, unigaze_path):
+		checkpoint_model = _read_checkpoint_any(unigaze_path)
+		# print("Keys in UniGaze checkpoint: ", len(checkpoint_model.keys()))
+		# print(" ---------------------------- ")
+		# print("self.state_dict() keys: ", len(self.state_dict().keys()))
+		# exit(0)
+		self.load_state_dict(checkpoint_model, strict=True)
+		print(f'Loaded UniGaze pretrained weights from {unigaze_path}')
 
 	def forward(self, input):
 		features = self.vit.forward_features(input)
