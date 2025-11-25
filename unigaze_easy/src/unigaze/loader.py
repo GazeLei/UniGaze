@@ -34,6 +34,14 @@ MODEL_INDEX = {
         "builder": "unigaze_h14_joint",
         "model_kwargs": {"model_type": "vit_h_14"},
     },
+
+    "unigaze_h14_cross_X": {
+        "repo_id": "UniGaze/UniGaze-models",
+        "filename": "unigaze_h14_cross_X.safetensors",
+        "revision": "main",
+        "builder": "unigaze_h14_cross_X",
+        "model_kwargs": {"model_type": "vit_h_14"},
+    },
     
 }
 
@@ -68,6 +76,7 @@ def load(name: str, device: str = "cpu", **kwargs):
         )
         model.load_unigaze_weights(path)
     elif name.startswith("mae"):
+        ## TODO: this is not supported yet
         path = hf_hub_download(
             repo_id=spec["repo_id"],
             filename=spec["filename"],
